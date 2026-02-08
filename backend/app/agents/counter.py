@@ -9,6 +9,17 @@ from ..schemas.state import CountOutput
 #     api_key='ollama'
 # )
 
+# for Gemini, you might use:
+
+# from pydantic_ai import Agent
+# from pydantic_ai.models.google import GoogleModel
+# from pydantic_ai.providers.google import GoogleProvider
+
+# provider = GoogleProvider(api_key='your-api-key')
+# model = GoogleModel('gemini-3-pro-preview', provider=provider)
+# agent = Agent(model)
+...
+
 model = OpenAIChatModel(
             model_name='llama3.1', 
             provider=OpenAIProvider(
