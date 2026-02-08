@@ -11,9 +11,9 @@ const AGUI_ENDPOINT =
 
 const runtime = new CopilotRuntime({
   agents: {
-    "0": new LangGraphHttpAgent({
+    "ag-ui-langgraph": new LangGraphHttpAgent({
       url: AGUI_ENDPOINT,
-      agentId: "0",
+      agentId: "ag-ui-langgraph",
       description: "AG-UI LangGraph agent",
     }),
   },

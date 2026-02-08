@@ -42,7 +42,7 @@ if not hasattr(LangGraphAGUIAgent, "dict_repr"):
     }
 
 sdk = LangGraphAGUIAgent(
-    name="0",
+    name="ag-ui-langgraph",
     graph=graph, # Your compiled LangGraph
     description="Agent for AG-UI application",
 )

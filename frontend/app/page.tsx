@@ -7,7 +7,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 
 function AgentUI() {
   const { state, running, run, nodeName } = useCoAgent({
-    name: "0",
+    name: "ag-ui-langgraph",
     initialState: {
       messages: [],
       summary_data: null,
@@ -93,52 +93,75 @@ function AgentUI() {
   }, [mappedNodeStatus, nodeName, running, state?.final_count, state?.llm_status]);
 
   return (
-    <div style={{ padding: 24, display: "flex", gap: 24 }}>
-      <div
-        style={{
-          flex: 1,
-          border: "1px solid var(--border)",
-          borderRadius: 12,
-          background: "var(--panel)",
-          padding: 16,
-        }}
-      >
-        <h2 style={{ marginTop: 0 }}>Llama Output</h2>
-        <p>
-          <strong>Status:</strong> {statusWord}
+    <div className="page">
+      <header className="hero">
+        <div className="hero-badge">AG-UI + LangGraph</div>
+        <h1 className="hero-title">Live Summaries, Real-Time Signals</h1>
+        <p className="hero-subtitle">
+          Paste a paragraph and watch the agent summarize and count words with streaming status updates.
         </p>
-        {summaryText && (
-          <p>
-            <strong>Summary:</strong> {summaryText}
-          </p>
-        )}
-        {wordCount !== null && wordCount !== undefined && (
-          <p>
-            <strong>Word Count:</strong> {wordCount}
-          </p>
-        )}
-      </div>
+      </header>
 
-      <div style={{ width: 400, height: 600 }}>
-        <CopilotChat
-          instructions="Send me text to summarize"
-          onSubmitMessage={() => {
-            lastNodeRef.current = null;
-            applyStatus("Processing");
-          }}
-          labels={{
-            title: "Llama Summarizer",
-            initial: "Hi! Paste some text and I’ll summarize it.",
-          }}
-        />
-      </div>
+      <main className="grid">
+        <section className="panel status-panel">
+          <div className="panel-header">
+            <div>
+              <p className="eyebrow">Agent Output</p>
+              <h2 className="panel-title">AG‑UI LangGraph</h2>
+            </div>
+            <span className={`status-pill status-${statusWord.toLowerCase()}`}>
+              {statusWord}
+            </span>
+          </div>
+
+          <div className="summary-card">
+            <p className="label">Summary</p>
+            <p className={`summary-text ${summaryText ? "" : "summary-empty"}`}>
+              {summaryText || "Awaiting summary..."}
+            </p>
+          </div>
+
+          <div className="metrics">
+            <div className="metric">
+              <p className="metric-label">Word Count</p>
+              <p className="metric-value">{wordCount ?? "—"}</p>
+            </div>
+            <div className="metric">
+              <p className="metric-label">Active Node</p>
+              <p className="metric-value">{nodeName || "idle"}</p>
+            </div>
+          </div>
+        </section>
+
+        <section className="panel chat-panel">
+          <div className="panel-header">
+            <div>
+              <p className="eyebrow">Input</p>
+              <h2 className="panel-title">Paste Text</h2>
+            </div>
+          </div>
+          <div className="chat-shell">
+            <CopilotChat
+              instructions="Send me text to summarize"
+              onSubmitMessage={() => {
+                lastNodeRef.current = null;
+                applyStatus("Processing");
+              }}
+              labels={{
+                title: "AG‑UI LangGraph",
+                initial: "Hi! Paste some text and I’ll summarize it.",
+              }}
+            />
+          </div>
+        </section>
+      </main>
     </div>
   );
 }
 
 export default function Page() {
   return (
-    <CopilotKit runtimeUrl="/api/copilotkit" agent="0">
+    <CopilotKit runtimeUrl="/api/copilotkit" agent="ag-ui-langgraph">
       <AgentUI />
     </CopilotKit>
   );
