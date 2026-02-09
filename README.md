@@ -1,8 +1,8 @@
 # AG-UI Forms (Gemini + CopilotKit demo)
 
 ## Structure
-- `apps/api`: FastAPI backend (Pydantic AI + LangGraph scaffolding)
-- `apps/web`: Next.js frontend (Tailwind + shadcn)
+- `backend/app`: FastAPI backend (Pydantic AI + LangGraph scaffolding)
+- `frontend`: Next.js frontend 
 
 ## Backend
 ```bash
