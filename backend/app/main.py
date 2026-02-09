@@ -69,7 +69,7 @@ remote_endpoint = CopilotKitRemoteEndpoint(
 
 # For local development, expose agents list on the runtime /info endpoint.
 # The constructor doesn't accept `agents__unsafe_dev_only`; set it after init.
-remote_endpoint.agents__unsafe_dev_only = [sdk]
+# remote_endpoint.agents__unsafe_dev_only = [sdk]
 
 # When using the Backend directly, enable the below "/copilotkit" endpoint to enable the agent interactions.
 # add_fastapi_endpoint(app, remote_endpoint, "/copilotkit")

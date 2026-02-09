@@ -222,6 +222,10 @@ a {
   overflow: hidden;
 }
 
+.copilotKitChat {
+  height: 100%;
+}
+
 @keyframes fadeUp {
   from {
     opacity: 0;
