@@ -1,10 +1,11 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, File, HTTPException, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 # Note the specific integration path for the endpoint
 from copilotkit.integrations.fastapi import add_fastapi_endpoint
 from copilotkit import Action, CopilotKitRemoteEndpoint, LangGraphAGUIAgent
 from ag_ui_langgraph import add_langgraph_fastapi_endpoint
 from .graph.workflow import graph
+from .file_store import save_upload
 # from ag_ui_langgraph import add_langgraph_fastapi_endpoint
 
 app = FastAPI()
@@ -74,6 +75,23 @@ remote_endpoint = CopilotKitRemoteEndpoint(
 # When using the Backend directly, enable the below "/copilotkit" endpoint to enable the agent interactions.
 # add_fastapi_endpoint(app, remote_endpoint, "/copilotkit")
 add_langgraph_fastapi_endpoint(app, sdk, "/agui")
+
+# File upload endpoint for image/tiff/pdf inputs.
+@app.post("/upload")
+async def upload_file(file: UploadFile = File(...)):
+    try:
+        record = save_upload(file)
+    except ValueError as exc:
+        raise HTTPException(status_code=400, detail=str(exc)) from exc
+    except Exception as exc:  # pylint: disable=broad-except
+        raise HTTPException(status_code=500, detail=str(exc)) from exc
+
+    return {
+        "file_id": record.file_id,
+        "filename": record.filename,
+        "content_type": record.content_type,
+        "size": record.size,
+    }
 
 # Simple test endpoint to verify the graph/agents and Ollama connectivity.
 # POST JSON {"input_text": "..."} -> runs summarizer then counter and returns results.

@@ -4,3 +4,5 @@ langgraph
 copilotkit
 pydantic-ai
 openai
+python-multipart
+google-auth

@@ -7,7 +7,7 @@ import {
 import { LangGraphHttpAgent } from "@copilotkit/runtime/langgraph";
 
 const AGUI_ENDPOINT =
-  process.env.AGUI_ENDPOINT ?? "http://localhost:8000/agui";
+  process.env.AGUI_ENDPOINT ?? "http://127.0.0.1:8001/agui";
 
 const runtime = new CopilotRuntime({
   agents: {
